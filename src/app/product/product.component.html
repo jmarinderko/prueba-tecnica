@@ -1,0 +1,80 @@
+<div class="dashboard container">
+  <div>
+    <h1>Products</h1>
+    <button class="btn btn-primary" (click)="openModal()">Add Product</button>
+  </div>
+
+  <div class="table-wrapper card p-3">
+    <div *ngIf="loading" class="text-muted small">Cargando...</div>
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th class="text-center">Nombre</th>
+          <th class="text-center">Precio</th>
+          <th class="text-center">Stock</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products$ | async">
+          <td class="text-center">{{ product.name }}</td>
+          <td class="text-center">{{ product.price }}</td>
+          <td class="text-center">{{ product.stock }}</td>
+          <td class="text-center">
+            <button class="btn btn-danger" (click)="deleteProduct(product.id)">Eliminar</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="(products$ | async)?.length === 0 && !loading">
+          <td colspan="4" class="text-center text-muted">Sin productos</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #addProductTpl let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Agregar Producto</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form" (ngSubmit)="newProduct()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': form.get('name')?.invalid }">
+            <div *ngIf="form.get('name')?.invalid" class="invalid-feedback">
+              <div *ngIf="form.get('name')?.errors?.['required']">El nombre es obligatorio</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="price">Precio</label>
+            <input type="number" class="form-control" formControlName="price" [ngClass]="{ 'is-invalid': form.get('price')?.invalid && form.get('price')?.touched }">
+            <div *ngIf="form.get('price')?.invalid" class="invalid-feedback">
+              <div *ngIf="form.get('price')?.errors?.['required']">El precio es obligatorio</div>
+            </div>
+            <div *ngIf="form.get('price')?.touched && form.get('price')?.hasError('min')" class="invalid-feedback">
+              El precio debe ser mayor a 0
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" class="form-control" formControlName="stock" [ngClass]="{ 'is-invalid': form.get('stock')?.invalid && form.get('stock')?.touched }">
+            <div *ngIf="form.get('stock')?.invalid" class="invalid-feedback">
+              <div *ngIf="form.get('stock')?.errors?.['required']">El stock es obligatorio</div>
+            </div>
+            <div *ngIf="form.get('stock')?.touched && form.get('stock')?.hasError('min')" class="invalid-feedback">
+              El stock debe ser mayor a 0
+            </div>
+          </div>
+
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="newProduct()">Guardar</button>
+      </div>
+    </div>
+  </ng-template>
+</div>
+

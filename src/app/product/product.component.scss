@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.table-wrapper {
+  border-radius: 1rem;
+}
+
+.table-responsive { overflow-x: auto; }
+
+
+@media (max-width: 750px) {
+  table thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tbody tr {
+    margin-bottom: .75rem;
+    border: 1px solid #e5e5e5;
+    border-radius: .75rem;
+    padding: .5rem;
+  }
+  td {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+    padding: .25rem .5rem !important;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    padding-right: .5rem;
+  }
+  td.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5rem;
+  }
+}
