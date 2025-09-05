@@ -17,10 +17,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of products$ | async">
-          <td class="text-center">{{ product.name }}</td>
-          <td class="text-center">{{ product.price }}</td>
-          <td class="text-center">{{ product.stock }}</td>
-          <td class="text-center">
+          <td class="text-center" data-label="Nombre">{{ product.name }}</td>
+          <td class="text-center" data-label="Precio">{{ product.price }}</td>
+          <td class="text-center" data-label="Stock">{{ product.stock }}</td>
+          <td class="text-center" data-label="Acciones">
             <button class="btn btn-danger" (click)="deleteProduct(product.id)">Eliminar</button>
           </td>
         </tr>
